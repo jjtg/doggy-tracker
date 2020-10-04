@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: 'DeleteConfirmationDialogue',
+  name: 'DeleteDogDialogue',
   props: {
     dog: Object,
   },

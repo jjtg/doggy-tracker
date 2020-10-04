@@ -1,5 +1,5 @@
 export default class Symptom {
-  symptom = 'N/A';
+  symptom = undefined;
 
   time = undefined;
 

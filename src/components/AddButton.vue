@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 .add-button {
-  position: absolute;
+  position: fixed;
   bottom: 2rem;
   right: 2rem;
 }

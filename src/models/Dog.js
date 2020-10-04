@@ -17,7 +17,11 @@ export default class Dog {
 
   picture = undefined;
 
+  foodTypes = [];
+
   food = [];
+
+  medicineTypes = [];
 
   medicine = [];
 
@@ -34,6 +38,12 @@ export default class Dog {
     if (obj.breed) this.breed = obj.breed;
     if (obj.picture) this.picture = obj.picture;
     if (obj.food && obj.food.length > 0) this.food = obj.food.map((it) => new Food(it));
+    if (obj.foodTypes && obj.foodTypes.length > 0) {
+      this.foodTypes = obj.foodTypes.map((it) => new Food(it));
+    }
+    if (obj.medicineTypes && obj.medicineTypes.length > 0) {
+      this.medicineTypes = obj.medicineTypes.map((it) => new Medicine(it));
+    }
     if (obj.medicine && obj.medicine.length > 0) {
       this.medicine = obj.medicine.map((it) => new Medicine(it));
     }
@@ -43,5 +53,27 @@ export default class Dog {
     if (obj.symptoms && obj.symptoms.length > 0) {
       this.symptoms = obj.symptoms.map((it) => new Symptom(it));
     }
+  }
+
+  get totalFoodPerDay() {
+    return this.foodTypes.reduce((acc, cur) => acc + cur.amount, 0);
+  }
+
+  get remainingFood() {
+    return this.totalFoodPerDay - this.food.reduce((acc, cur) => acc + cur.amount, 0);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get lastPoopToday() {
+    const now = new Date();
+    return now.toTimeString().split(' ')[0].replace(/:\d{2}$/, '');
+  }
+
+  get totalMedicinePerDay() {
+    return this.medicineTypes.reduce((acc, cur) => acc + cur.amount, 0);
+  }
+
+  get remainingMedicine() {
+    return this.totalMedicinePerDay - this.medicine.reduce((acc, cur) => acc + cur.amount, 0);
   }
 }

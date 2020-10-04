@@ -39,11 +39,11 @@
 </template>
 
 <script>
-import AddDogDataForm from '@/components/forms/AddDogDataForm.vue';
-import EditDogForm from '@/components/forms/EditDogForm.vue';
+import AddDogDataForm from '@/components/add-data/DogDataForm.vue';
+import EditDogForm from '@/components/EditDogForm.vue';
 import EmptyState from '@/components/EmptyState.vue';
 import DogCard from '@/components/DogCard.vue';
-import AddButton from '@/components/common/AddButton.vue';
+import AddButton from '@/components/AddButton.vue';
 import Dog from '@/models/Dog';
 
 export default {
@@ -77,8 +77,8 @@ export default {
     },
   },
   async mounted() {
+    document.title = 'DoggyTracker';
     this.dogs = await this.$store.dispatch('dogs/fetchDogs');
-    await document.documentElement.requestFullscreen();
   },
 };
 </script>

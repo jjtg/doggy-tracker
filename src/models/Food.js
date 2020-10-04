@@ -1,11 +1,16 @@
-export default class Food {
-  foodType = 'N/A';
+import { v4 as uuidv4 } from 'uuid';
 
-  foodAmount = 0;
+export default class Food {
+  uuid = uuidv4();
+
+  type = undefined;
+
+  amount = 0;
 
   constructor(obj) {
     if (!obj) return;
-    this.foodType = obj.foodType;
-    this.foodAmount = obj.foodAmount;
+    if (obj.uuid) this.uuid = obj.uuid;
+    if (obj.type) this.type = obj.type;
+    if (obj.amount) this.amount = obj.amount;
   }
 }

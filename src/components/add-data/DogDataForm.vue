@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <DeleteConfirmationDialogue
+    <DeleteDogDialogue
       v-if="!!confirmDeletion"
       :dog="confirmDeletion"
       @cancel="confirmDeletion = undefined"
@@ -103,33 +103,18 @@
         </v-row>
       </v-card>
     </v-row>
-    <v-row xs12 class="mb-4">
-      <v-card @click="cancel" color="error" min-width="100%" elevation="5">
-        <v-row xs12>
-          <v-spacer/>
-          <v-col cols="2">
-            <v-icon x-large class="ma-3">
-              mdi-cancel
-            </v-icon>
-          </v-col>
-          <v-col cols="5">
-            <v-card-title>
-              Cancel
-            </v-card-title>
-          </v-col>
-          <v-spacer/>
-        </v-row>
-      </v-card>
-    </v-row>
+    <CancelAddDataButton @cancel="cancel" />
   </v-container>
 </template>
 
 <script>
-import DeleteConfirmationDialogue from '@/components/forms/delete/DeleteConfirmationDialogue.vue';
+
+import DeleteDogDialogue from '@/components/add-data/DeleteDogDialogue.vue';
+import CancelAddDataButton from '@/components/add-data/CancelAddDataButton.vue';
 
 export default {
   name: 'AddDogDataForm',
-  components: { DeleteConfirmationDialogue },
+  components: { CancelAddDataButton, DeleteDogDialogue },
   props: {
     dog: Object,
   },
