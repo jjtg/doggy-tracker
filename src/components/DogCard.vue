@@ -50,16 +50,16 @@
                 </v-row>
               </v-col>
               <v-col class="pa-0">
-                <v-img src="@/assets/poop-icon-white.png" width="24" class="poop-icon"/>
-                {{dog.lastPoopToday}}
-              </v-col>
-              <v-col class="pl-0 pt-0 pb-0 pr-3">
                 <v-row class="ma-0">
                   <v-icon>mdi-pill</v-icon>
                 </v-row>
                 <v-row class="ml-1 mt-0 mr-0 mb-0">
                   {{dog.remainingMedicine}}
                 </v-row>
+              </v-col>
+              <v-col class="pl-0 pt-0 pb-0 pr-5">
+                <v-img src="@/assets/poop-icon-white.png" width="24" class="poop-icon"/>
+                {{dog.lastPoopToday}}
               </v-col>
             </v-row>
           </v-card-text>
