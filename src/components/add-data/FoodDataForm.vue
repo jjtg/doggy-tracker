@@ -9,20 +9,29 @@
         <v-card>
           <v-card-title>
             <span class="headline">
-              You walked {{ dog.gender === 'Male' ? 'him' : 'her'}}?
+              What did you feed {{ dog.gender === 'Male' ? 'him' : 'her'}}?
             </span>
           </v-card-title>
           <v-card-text>
-            <v-form ref="walkDataForm">
+            <v-form ref="foodDataForm">
               <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select
+                      v-model="newData.type"
+                      :items="dog.foodTypes.map((it) => it.type)"
+                      label="Select food type"
+                      :rules="[v => !!v || 'Food type is required']"/>
+                  </v-col>
+                </v-row>
                 <v-row>
                   <v-col cols="6" sm="6" md="4">
                     <v-text-field
-                      v-model="newData.length"
+                      v-model="newData.amount"
                       type="number"
-                      placeholder="20"
-                      suffix="minutes"
-                      :rules="[v => !!v || 'Length is required']"
+                      placeholder="50"
+                      suffix="g"
+                      :rules="[v => !!v || 'Amount is required']"
                     />
                   </v-col>
                   <v-col cols="6" sm="6" md="4">
@@ -35,26 +44,6 @@
                     </v-btn>
                   </v-col>
                 </v-row>
-                <v-row>
-                  <v-col cols="12" sm="12">
-                    <v-checkbox v-model="newData.pee" label="Pee"/>
-                  </v-col>
-                  <v-col cols="12" sm="12">
-                    <v-checkbox v-model="didPoo" label="Poo"/>
-                    <v-select
-                      label="How was it?"
-                      v-if="newData.poo"
-                      v-model="newData.poo.pooType"
-                      :items="['normal', 'hard', 'soft', 'diarrhea']"
-                    ></v-select>
-                    <v-select
-                      label="How much?"
-                      v-if="newData.poo"
-                      v-model="newData.poo.amount"
-                      :items="['normal', 'a little', 'a lot']"
-                    ></v-select>
-                  </v-col>
-                </v-row>
               </v-container>
             </v-form>
           </v-card-text>
@@ -63,7 +52,7 @@
             <v-btn color="error" text @click="showModal = false">
               Cancel
             </v-btn>
-            <v-btn :disabled="!newData.length || !newData.time"
+            <v-btn :disabled="!newData.type || !newData.amount || !newData.time"
                    color="primary" text @click="saveData">
               Save
             </v-btn>
@@ -76,12 +65,12 @@
         <v-spacer/>
         <v-col cols="2">
           <v-icon x-large class="ma-3">
-            mdi-dog-service
+            mdi-food-drumstick
           </v-icon>
         </v-col>
         <v-col cols="5">
           <v-card-title>
-            Walk
+            Food
           </v-card-title>
         </v-col>
         <v-spacer/>
@@ -91,41 +80,29 @@
 </template>
 
 <script>
-import Walk from '@/models/Walk';
-import Poo from '@/models/Poo';
+import Food from '@/models/Food';
 
 export default {
-  name: 'WalkDataForm',
+  name: 'FoodDataForm',
   props: {
     dog: Object,
   },
   data: () => ({
-    showModal: false,
     newData: undefined,
-    didPoo: false,
+    showModal: false,
+    timePicker: false,
   }),
-  watch: {
-    didPoo(val) {
-      if (val) {
-        this.newData.poo = new Poo({
-          pooType: 'normal',
-          amount: 'normal',
-        });
-      } else {
-        this.newData.poo = undefined;
-      }
-    },
-  },
   methods: {
     addNewData() {
-      this.newData = new Walk({
+      this.newData = new Food({
+        type: this.dog.foodTypes[0].type || undefined,
         time: new Date(),
       });
       this.showModal = true;
     },
     saveData() {
-      this.newData.length = parseInt(this.newData.length, 10);
-      this.dog.walks.push(this.newData);
+      this.newData.amount = parseInt(this.newData.amount, 10);
+      this.dog.food.push(this.newData);
       this.$emit('save');
       this.showModal = false;
     },

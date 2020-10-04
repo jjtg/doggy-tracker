@@ -55,18 +55,38 @@ export default class Dog {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  formatDate(date) {
+    const formattedString = date.toTimeString().split(' ')[0].replace(/:\d{2}$/, '');
+    return formattedString !== 'Invalid' ? formattedString : '--:--';
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  maxDate(dateStringList) {
+    return new Date(Math.max(...dateStringList.map((it) => new Date(it))));
+  }
+
+  get lastWalkTime() {
+    const latestDate = this.maxDate(this.walks.map((it) => it.time));
+    return this.formatDate(latestDate);
+  }
+
   get totalFoodPerDay() {
     return this.foodTypes.reduce((acc, cur) => acc + cur.amount, 0);
   }
 
-  get remainingFood() {
-    return this.totalFoodPerDay - this.food.reduce((acc, cur) => acc + cur.amount, 0);
+  get foodGivenToday() {
+    return this.food.reduce((acc, cur) => acc + cur.amount, 0);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  get lastPoopToday() {
-    const now = new Date();
-    return now.toTimeString().split(' ')[0].replace(/:\d{2}$/, '');
+  get lastFeedingTime() {
+    const latestDate = this.maxDate(this.food.map((it) => it.time));
+    return this.formatDate(latestDate);
+  }
+
+  get lastPoopTime() {
+    const latestDate = this.maxDate(this.walks.filter((it) => it.didPoo).map((it) => it.time));
+    return this.formatDate(latestDate);
   }
 
   get totalMedicinePerDay() {
@@ -75,5 +95,15 @@ export default class Dog {
 
   get remainingMedicine() {
     return this.totalMedicinePerDay - this.medicine.reduce((acc, cur) => acc + cur.amount, 0);
+  }
+
+  givenMedicineToday(medicineType) {
+    // TODO - Add daily filtering logic
+    return this.medicine.filter((it) => it.name === medicineType.name);
+  }
+
+  get lastMedicineTime() {
+    const latestDate = this.maxDate(this.medicine.map((it) => it.time));
+    return this.formatDate(latestDate);
   }
 }

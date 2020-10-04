@@ -9,20 +9,30 @@
         <v-card>
           <v-card-title>
             <span class="headline">
-              You walked {{ dog.gender === 'Male' ? 'him' : 'her'}}?
+              What did give {{ dog.gender === 'Male' ? 'him' : 'her'}}?
             </span>
           </v-card-title>
           <v-card-text>
-            <v-form ref="walkDataForm">
+            <v-form ref="medicineDataForm">
               <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select
+                      v-model="medicineType"
+                      :items="dog.medicineTypes"
+                      :item-text="v => `${v.name} (${v.dosage} / day)`"
+                      :item-value="v => v"
+                      label="Select medicine type"
+                      :rules="[v => !!v || 'Medicine type is required']"/>
+                  </v-col>
+                </v-row>
                 <v-row>
                   <v-col cols="6" sm="6" md="4">
                     <v-text-field
-                      v-model="newData.length"
-                      type="number"
-                      placeholder="20"
-                      suffix="minutes"
-                      :rules="[v => !!v || 'Length is required']"
+                      :disabled="!medicineType"
+                      v-model="newData.dosage"
+                      :placeholder="medicineType ? medicineType.dosage : ''"
+                      :rules="[v => !!v || 'Dosage is required']"
                     />
                   </v-col>
                   <v-col cols="6" sm="6" md="4">
@@ -35,35 +45,23 @@
                     </v-btn>
                   </v-col>
                 </v-row>
-                <v-row>
-                  <v-col cols="12" sm="12">
-                    <v-checkbox v-model="newData.pee" label="Pee"/>
-                  </v-col>
-                  <v-col cols="12" sm="12">
-                    <v-checkbox v-model="didPoo" label="Poo"/>
-                    <v-select
-                      label="How was it?"
-                      v-if="newData.poo"
-                      v-model="newData.poo.pooType"
-                      :items="['normal', 'hard', 'soft', 'diarrhea']"
-                    ></v-select>
-                    <v-select
-                      label="How much?"
-                      v-if="newData.poo"
-                      v-model="newData.poo.amount"
-                      :items="['normal', 'a little', 'a lot']"
-                    ></v-select>
-                  </v-col>
-                </v-row>
+
               </v-container>
             </v-form>
           </v-card-text>
+          <v-card-text
+            v-if="medicineType"
+            class="ma-0 pl-8"
+          >
+            You've given {{ dog.gender === 'Male' ? 'him' : 'her'}}
+            {{dog.givenMedicineToday(medicineType).length}} / {{medicineType.amount}} time(s) today.
+          </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="error" text @click="showModal = false">
+            <v-btn color="error" text @click="cancel">
               Cancel
             </v-btn>
-            <v-btn :disabled="!newData.length || !newData.time"
+            <v-btn :disabled="!newData.name || !newData.amount || !newData.time || !newData.dosage"
                    color="primary" text @click="saveData">
               Save
             </v-btn>
@@ -76,12 +74,12 @@
         <v-spacer/>
         <v-col cols="2">
           <v-icon x-large class="ma-3">
-            mdi-dog-service
+            mdi-pill
           </v-icon>
         </v-col>
         <v-col cols="5">
           <v-card-title>
-            Walk
+            Medicine
           </v-card-title>
         </v-col>
         <v-spacer/>
@@ -91,41 +89,41 @@
 </template>
 
 <script>
-import Walk from '@/models/Walk';
-import Poo from '@/models/Poo';
+import Medicine from '@/models/Medicine';
 
 export default {
-  name: 'WalkDataForm',
+  name: 'MedicineDataForm',
   props: {
     dog: Object,
   },
   data: () => ({
-    showModal: false,
     newData: undefined,
-    didPoo: false,
+    medicineType: undefined,
+    showModal: false,
   }),
   watch: {
-    didPoo(val) {
+    medicineType(val) {
       if (val) {
-        this.newData.poo = new Poo({
-          pooType: 'normal',
-          amount: 'normal',
-        });
-      } else {
-        this.newData.poo = undefined;
+        this.newData.name = val.name;
+        this.newData.dosage = val.dosage;
+        this.newData.amount = val.amount;
       }
     },
   },
   methods: {
+    cancel() {
+      this.showModal = false;
+      this.newData = undefined;
+      this.medicineType = undefined;
+    },
     addNewData() {
-      this.newData = new Walk({
+      this.newData = new Medicine({
         time: new Date(),
       });
       this.showModal = true;
     },
     saveData() {
-      this.newData.length = parseInt(this.newData.length, 10);
-      this.dog.walks.push(this.newData);
+      this.dog.medicine.push(this.newData);
       this.$emit('save');
       this.showModal = false;
     },

@@ -32,34 +32,38 @@
             {{dog.breed}} - Age: {{dog.age}}
           </v-card-subtitle>
           <v-card-text class="pl-10 pt-2 pb-0 pr-0">
-            <v-row>
+            <v-row class="pt-0" justify="center">
               <v-col class="pa-0">
-                <v-row class="ma-0">
+                <v-row justify="center">
                   <v-icon>mdi-dog-service</v-icon>
                 </v-row>
-                <v-row class="ml-1 mt-0 mr-0 mb-0">
-                  {{dog.walks.length}}
+                <v-row justify="center">
+                  {{dog.lastWalkTime}}
                 </v-row>
               </v-col>
               <v-col class="pa-0">
-                <v-row class="ma-0">
+                <v-row justify="center">
                   <v-icon>mdi-food-drumstick</v-icon>
                 </v-row>
-                <v-row class="ma-0">
-                  {{dog.remainingFood}}
+                <v-row justify="center">
+                  {{dog.lastFeedingTime}}
                 </v-row>
               </v-col>
-              <v-col class="pa-0">
-                <v-row class="ma-0">
+              <v-col v-if="dog.medicineTypes.length > 0" class="pa-0">
+                <v-row justify="center">
                   <v-icon>mdi-pill</v-icon>
                 </v-row>
-                <v-row class="ml-1 mt-0 mr-0 mb-0">
-                  {{dog.remainingMedicine}}
+                <v-row justify="center">
+                  {{dog.lastMedicineTime}}
                 </v-row>
               </v-col>
-              <v-col class="pl-0 pt-0 pb-0 pr-5">
-                <v-img src="@/assets/poop-icon-white.png" width="24" class="poop-icon"/>
-                {{dog.lastPoopToday}}
+              <v-col class="pa-0 poop-row">
+                <v-row justify="center">
+                  <v-img src="@/assets/poop-icon-white.png" max-width="24" />
+                </v-row>
+                <v-row justify="center">
+                  {{dog.lastPoopTime}}
+                </v-row>
               </v-col>
             </v-row>
           </v-card-text>
@@ -85,10 +89,9 @@ export default {
 <style scoped>
 .gender {
   position: absolute;
-  right: 2rem;
+  right: 1rem;
 }
-.poop-icon {
-  margin-top: -5px;
-  margin-left: 4px;
+.poop-row {
+  margin: -.3rem 1rem 0 -5px;
 }
 </style>

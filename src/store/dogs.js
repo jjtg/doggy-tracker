@@ -14,7 +14,8 @@ export default {
   actions: {
     async fetchDogs({ commit }) {
       const dogs = await JSON.parse(storage.get('dogs', '[]'))
-        .map((d) => new Dog(d));
+        .map((d) => new Dog(d))
+        .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
       commit('setDogs', dogs);
       return dogs;
     },

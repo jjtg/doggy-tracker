@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import AddDogDataForm from '@/components/add-data/DogDataForm.vue';
+import AddDogDataForm from '@/components/add-data/AddDogDataForm.vue';
 import EditDogForm from '@/components/EditDogForm.vue';
 import EmptyState from '@/components/EmptyState.vue';
 import DogCard from '@/components/DogCard.vue';
