@@ -23,10 +23,9 @@
         <v-col cols="9" class="pb-0 pt-0 pr-0">
           <v-card-title class="pl-8 pt-0 pb-4 pr-0">
             {{dog.name}}
-            <v-icon color="primary darken-4" v-if="dog.gender === 'Male'" class="gender">
-              mdi-gender-male
+            <v-icon color="primary darken-4" class="gender">
+              {{ dog.gender === 'Male' ? 'mdi-gender-male' : 'mdi-gender-female' }}
             </v-icon>
-            <v-icon color="pink lighten-4" v-else class="gender">mdi-gender-female</v-icon>
           </v-card-title>
           <v-card-subtitle class="pl-8 pt-0 pb-0 pr-0">
             {{dog.breed}} - Age: {{dog.age}}

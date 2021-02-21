@@ -1,5 +1,5 @@
 <template>
-  <v-row xs12 class="mb-4">
+  <div class="mb-4">
     <v-row v-if="showModal" justify="center">
       <v-dialog
         v-model="dog"
@@ -9,7 +9,7 @@
         <v-card>
           <v-card-title>
             <span class="headline">
-              What did give {{ dog.gender === 'Male' ? 'him' : 'her'}}?
+              What did give {{ dog.gender === 'Male' ? 'him' : 'her' }}?
             </span>
           </v-card-title>
           <v-card-text>
@@ -37,8 +37,10 @@
                   </v-col>
                   <v-col cols="6" sm="6" md="4">
                     <v-btn color="success" class="mt-2" @click="timePicker = true">
-                      {{ newData.time.toTimeString().split(' ')[0]
-                      .replace(/:\d{2}$/, '') || 'Not selected' }}
+                      {{
+                        newData.time.toTimeString().split(' ')[0]
+                          .replace(/:\d{2}$/, '') || 'Not selected'
+                      }}
                       <v-icon right>
                         mdi-clock
                       </v-icon>
@@ -69,23 +71,20 @@
         </v-card>
       </v-dialog>
     </v-row>
-    <v-card @click="addNewData" min-width="100%" elevation="5">
-      <v-row xs12>
-        <v-spacer/>
-        <v-col cols="2">
-          <v-icon x-large class="ma-3">
-            mdi-pill
-          </v-icon>
-        </v-col>
-        <v-col cols="5">
-          <v-card-title>
-            Medicine
-          </v-card-title>
-        </v-col>
-        <v-spacer/>
+    <v-card
+      @click="addNewData"
+      elevation="5"
+    >
+      <v-row class="justify-center">
+        <v-icon x-large class="ma-1 pt-4 pb-4">
+          mdi-pill
+        </v-icon>
+        <v-card-title>
+          Medicine
+        </v-card-title>
       </v-row>
     </v-card>
-  </v-row>
+  </div>
 </template>
 
 <script>

@@ -3,8 +3,14 @@
     <v-app-bar app color="primary" dark>
       <v-spacer/>
       <div class="d-flex align-center">
-        <v-img alt="Pug Logo" class="shrink mr-2" contain src="@/assets/pugLogo.png"
-               transition="scale-transition" width="40" />
+        <v-img
+          alt="Pug Logo"
+          class="shrink mr-2"
+          src="@/assets/pugLogo.png"
+          transition="scale-transition"
+          width="40"
+          contain
+        />
         <h2>DoggyTracker</h2>
       </div>
       <v-spacer/>

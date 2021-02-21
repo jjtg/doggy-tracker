@@ -6,11 +6,10 @@
       @cancel="confirmDeletion = undefined"
       @delete="deleteDog"
     />
-    <v-row xs12 class="mb-4">
-      <DeleteButton @delete="confirmDeletion = dog"/>
-      <v-spacer/>
-      <SettingsButton @edit="edit" />
-    </v-row>
+    <EditDeleteRow
+      @edit="edit"
+      @delete="confirmDeletion = dog"
+    />
     <SymptomDataForm :dog="dog" @save="save"/>
     <MedicineDataForm :dog="dog" @save="save"/>
     <FoodDataForm :dog="dog" @save="save"/>
@@ -27,14 +26,12 @@ import FoodDataForm from '@/components/add-data/FoodDataForm.vue';
 import WalkDataForm from '@/components/add-data/WalkDataForm.vue';
 import MedicineDataForm from '@/components/add-data/MedicineDataForm.vue';
 import SymptomDataForm from '@/components/add-data/SymptomDataForm.vue';
-import SettingsButton from '@/components/add-data/SettingsButton.vue';
-import DeleteButton from '@/components/add-data/DeleteButton.vue';
+import EditDeleteRow from '@/components/add-data/EditDeleteRow.vue';
 
 export default {
   name: 'AddDogDataForm',
   components: {
-    DeleteButton,
-    SettingsButton,
+    EditDeleteRow,
     SymptomDataForm,
     MedicineDataForm,
     WalkDataForm,
